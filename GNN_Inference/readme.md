@@ -11,5 +11,5 @@ numpy
 matplotlib
 pathlib
 
-A more simple and well-commented version of the main GNN_inference.py code is in GNN_inference_simple.py which can be used for the purposes of learning but it will not work for the current datafile in this directory. 
+A more simple and well-commented version of the main GNN_inference.py code is in GNN_inference_Simple.py which can be used for the purposes of learning but it will not work for the current datafile in this directory. 
 
