@@ -88,12 +88,12 @@ class ForceGNN(tf.keras.Model):
         init_logit = np.log(alpha_init / (1 - alpha_init))
         l2_reg = tf.keras.regularizers.l2(0.01)
         init   = tf.keras.initializers.HeNormal()
-        # self.env_net = tf.keras.Sequential([
-        #     tf.keras.layers.Dense(hidden_dim, activation='elu'),
-        #     tf.keras.layers.Dense(hidden_dim, activation='elu'),
-        #     tf.keras.layers.Dense(hidden_dim, activation='elu'),
-        #     tf.keras.layers.Dense(2)
-        # ], name='F_env')
+        self.env_net = tf.keras.Sequential([
+            tf.keras.layers.Dense(hidden_dim, activation='tanh'),
+            tf.keras.layers.Dense(hidden_dim, activation='tanh'),
+            tf.keras.layers.Dense(hidden_dim, activation='tanh'),
+            tf.keras.layers.Dense(2)
+        ], name='F_env')
         ##tf.keras.layers.Dense(hidden_dim, activation='elu'),
         # tf.keras.layers.Dense(hidden_dim, activation=None,
         #                          kernel_initializer=init, kernel_regularizer=l2_reg),
@@ -229,7 +229,7 @@ class ForceGNN(tf.keras.Model):
         velocities = node_features[:, 2:4]  # (N, 2) - velocities at columns 2-3
         
         # Environmental force (only uses positions)
-        #F_env = self.env_net(positions)
+        F_env = self.env_net(positions)
 
         
         
@@ -265,7 +265,7 @@ class ForceGNN(tf.keras.Model):
         F_drag = self.gamma * velocities
         
         # Total force
-        F_total =   F_drag +F_r_aggregated #+ F_env #+ F_drag #F_env 
+        F_total =   F_drag +F_r_aggregated + F_env #+ F_drag #F_env 
         
         if return_components:
             return F_total,F_r_aggregated,  F_drag #, F_env #, F_drag #F_env
