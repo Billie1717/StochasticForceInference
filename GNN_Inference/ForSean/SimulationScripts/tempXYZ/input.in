@@ -1,0 +1,20 @@
+units lj
+atom_style atomic
+dimension 2
+boundary p p p
+read_data /Users/billiemeadowcroft/Dropbox/PostDocCode/Github_SFI/GNN_Inference/ForSean/SimulationScripts/tempXYZ/config.in
+timestep 0.001
+variable            CenteringForceX atom -0.02*x
+variable            CenteringForceY atom -0.01*y
+pair_style lj/cut/soft 1 0.5 0.1
+pair_coeff * * 0.0 1.5 0.1 0.1
+velocity all create 0.1 12345
+group TheseAreDeleted type 2
+region CreateAtomsHere block -2 2 -2 2 -0.1 0.1
+dump 1 all custom 20 /Users/billiemeadowcroft/Dropbox/PostDocCode/Github_SFI/GNN_Inference/ForSean/SimulationScripts/tempXYZ/outputTestingGamma_NoTrap_kappa0.01_temp0.1_trajlen300_dt0.001_N200_seed1_damp1frame20.xyz id type x y z
+fix centering all addforce v_CenteringForceX v_CenteringForceY 0.0 every 1
+fix 2 all langevin 0.1 0.1 1 12345
+fix 1 all nve
+run 100000
+unfix centering
+run 6000
