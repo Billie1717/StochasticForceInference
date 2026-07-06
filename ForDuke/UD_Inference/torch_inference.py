@@ -753,7 +753,7 @@ def prepare_dataset(
     print("r_mean:", r_mean, "r_std:", r_std)
     
     for d in dataset:
-        d['edge_feat'][:, 0] = (d['edge_feat'][:, 0] - r_mean) / r_std
+        d['edge_feat'][:, 0] = (d['edge_feat'][:, 0])/r_std
         d['targets'] = (d['targets']) / y_std
         d['nodes'][:, 0] = (d['nodes'][:, 0] - x_mean[0]) / x_std
         d['nodes'][:, 1] = (d['nodes'][:, 1] - x_mean[1]) / x_std
